@@ -1,0 +1,40 @@
+{
+    "name": "silverstripe/core",
+    "description": "Core of Silverstripe CMS",
+    "authors": [
+        {
+            "name": "Sam Minnee",
+            "email": "sam@silverstripe.com"
+        }
+    ],
+    "require":   {
+        "m1/env": "^2.1",
+        "silverstripe/config": "^1",
+        "psr/container": "^1",
+        "psr/container-implementation": "^1",
+        "monolog/monolog": "~1.15",
+        "symfony/cache": "^3.3",
+        "nikic/php-parser": "^3 || ^4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.7.27",
+        "sminnee/phpunit-mock-objects": "^3.4.5",
+        "squizlabs/php_codesniffer": "^3.5"
+    },
+    "provide": {
+        "psr/container-implementation": "1.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SilverStripe\\Core\\": "src/",
+            "SilverStripe\\Dev\\": "srcDev/",
+            "SilverStripe\\Core\\Tests\\": "tests/"
+        },
+        "classmap": [
+            "src/_legacy"
+        ],
+        "files": [
+            "src/includes/constants.php"
+        ]
+    }
+}
