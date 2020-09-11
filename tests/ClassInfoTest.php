@@ -153,7 +153,15 @@ class ClassInfoTest extends SapphireTest
             $expect,
             ClassInfo::ancestry('silverstripe\\core\\tests\\classINFOtest\\Childclass')
         );
+    }
 
+    public function testAncestryOfTableClass()
+    {
+        if (!class_exists(DataObject::class)) {
+            $this->markTestSkipped('Data classes only works with DataObject');
+            return;
+        }
+    
         ClassInfo::reset_db_cache();
         $ancestry = ClassInfo::ancestry(ChildClass::class, true);
         $this->assertEquals(
@@ -170,6 +178,11 @@ class ClassInfoTest extends SapphireTest
      */
     public function testDataClassesFor()
     {
+        if (!class_exists(DataObject::class)) {
+            $this->markTestSkipped('Data classes only works with DataObject');
+            return;
+        }
+
         $expect = [
             'silverstripe\\core\\tests\\classinfotest\\basedataclass' => BaseDataClass::class,
             'silverstripe\\core\\tests\\classinfotest\\hasfields' => HasFields::class,

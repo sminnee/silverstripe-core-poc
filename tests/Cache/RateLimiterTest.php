@@ -14,7 +14,12 @@ class RateLimiterTest extends SapphireTest
     protected function setUp()
     {
         parent::setUp();
-        DBDatetime::set_mock_now('2017-09-27 00:00:00');
+
+        if (class_exists(DBDatetime::class)) {
+            DBDatetime::set_mock_now('2017-09-27 00:00:00');
+        } else {
+            $this->markTestSkipped('RateLimiter finds DBDatetime');
+        }
     }
 
     public function testConstruct()

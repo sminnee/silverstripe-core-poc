@@ -3,6 +3,7 @@
 namespace SilverStripe\Core\Tests\Manifest;
 
 use SilverStripe\Control\Director;
+use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Core\Manifest\ModuleManifest;
 use SilverStripe\Dev\SapphireTest;
 
@@ -25,8 +26,14 @@ class ModuleResourceTest extends SapphireTest
         $this->base = dirname(__FILE__) . '/fixtures/classmanifest';
         $this->manifest = new ModuleManifest($this->base);
         $this->manifest->init();
-        Director::config()->set('alternate_base_url', 'http://www.mysite.com/basefolder/');
-        Director::config()->set('alternate_public_dir', 'public');
+
+        // To do: provide a test resource URL generator
+        if (Injector::inst()->has(ResourceURLGenerator::class) && class_exists(Director::class)) {
+            Director::config()->set('alternate_base_url', 'http://www.mysite.com/basefolder/');
+            Director::config()->set('alternate_public_dir', 'public');
+        } else {
+            $this->markTestSkipped('No resource URL generator defined');
+        }
     }
 
     public function testBaseModuleResource()

@@ -264,6 +264,10 @@ PHP
      */
     public function testRaw2URL()
     {
+        if (!class_exists(URLSegmentFilter::class)) {
+            $this->markTestIncomplete('URLSegmentFilter not included');
+        }
+
         URLSegmentFilter::config()->update('default_allow_multibyte', false);
         $this->assertEquals('foo', Convert::raw2url('foo'));
         $this->assertEquals('foo-and-bar', Convert::raw2url('foo & bar'));
