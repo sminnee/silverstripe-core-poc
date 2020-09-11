@@ -58,4 +58,40 @@ class Path
             return rtrim($path, self::TRIM_CHARS);
         }
     }
+
+    /**
+     * Given a filesystem reference relative to the site root, return the full file-system path.
+     *
+     * @param string $file
+     *
+     * @return string
+     */
+    public static function getAbsFile($file)
+    {
+        // If already absolute
+        if (self::isAbsolute($file)) {
+            return $file;
+        }
+
+        // Default to base folder
+        return self::join(BASE_PATH, $file);
+    }
+
+    /**
+     * Returns true if a given path is absolute. Works under both *nix and windows systems.
+     *
+     * @param string $path
+     *
+     * @return bool
+     */
+    public static function isAbsolute($path)
+    {
+        if (empty($path)) {
+            return false;
+        }
+        if ($path[0] == '/' || $path[0] == '\\') {
+            return true;
+        }
+        return preg_match('/^[a-zA-Z]:[\\\\\/]/', $path) == 1;
+    }
 }

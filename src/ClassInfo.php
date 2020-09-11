@@ -300,7 +300,7 @@ class ClassInfo
      */
     public static function classes_for_file($filePath)
     {
-        $absFilePath = Director::getAbsFile($filePath);
+        $absFilePath = Path::getAbsFile($filePath);
         $classManifest = ClassLoader::inst()->getManifest();
         $classes = $classManifest->getClasses();
         $classNames = $classManifest->getClassNames();
@@ -323,7 +323,7 @@ class ClassInfo
      */
     public static function classes_for_folder($folderPath)
     {
-        $absFolderPath = Director::getAbsFile($folderPath);
+        $absFolderPath = Path::getAbsFile($folderPath);
         $classManifest = ClassLoader::inst()->getManifest();
         $classes = $classManifest->getClasses();
         $classNames = $classManifest->getClassNames();
