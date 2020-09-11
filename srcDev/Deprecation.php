@@ -4,6 +4,8 @@ namespace SilverStripe\Dev;
 
 use SilverStripe\Control\Director;
 use SilverStripe\Core\Environment;
+use SilverStripe\Core\Injector\Injector;
+use SilverStripe\Core\Kernel;
 use SilverStripe\Core\Manifest\ClassLoader;
 use SilverStripe\Core\Manifest\Module;
 use SilverStripe\Core\Manifest\ModuleLoader;
@@ -142,7 +144,7 @@ class Deprecation
     public static function get_enabled()
     {
         // Deprecation is only available on dev
-        if (!Director::isDev()) {
+        if (!Injector::inst()->get(Kernel::class)->getEnvironment() === 'dev') {
             return false;
         }
         if (isset(self::$enabled)) {
