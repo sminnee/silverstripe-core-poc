@@ -10,8 +10,8 @@ use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Psr\SimpleCache\CacheInterface;
 use ReflectionClass;
-use SilverStripe\Control\Director;
 use SilverStripe\Core\Environment;
+use SilverStripe\Core\Injector\Injector;
 
 /**
  * Assists with building of manifest cache prior to config being available
@@ -23,11 +23,7 @@ class ManifestCacheFactory extends DefaultCacheFactory
         // Build default manifest logger
         if (!$logger) {
             $logger = new Logger("manifestcache-log");
-            if (Director::isDev()) {
-                $logger->pushHandler(new StreamHandler('php://output'));
-            } else {
-                $logger->pushHandler(new ErrorLogHandler());
-            }
+            $logger->pushHandler(new ErrorLogHandler());
         }
 
         parent::__construct($args, $logger);

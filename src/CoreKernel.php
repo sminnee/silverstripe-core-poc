@@ -3,6 +3,7 @@
 namespace SilverStripe\Core;
 
 use InvalidArgumentException;
+use Monolog\Handler\ErrorLogHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
@@ -490,10 +491,21 @@ class CoreKernel implements Kernel
      */
     protected function buildManifestCacheFactory()
     {
-        return new ManifestCacheFactory([
-            'namespace' => 'manifestcache',
-            'directory' => TempFolder::getTempFolder($this->basePath),
-        ]);
+        // Choose a logger based on the environment type of this kernel
+        $logger = new Logger("manifestcache-log");
+        if ($this->getEnvironment() === self::DEV) {
+            $logger->pushHandler(new StreamHandler('php://output'));
+        } else {
+            $logger->pushHandler(new ErrorLogHandler());
+        }
+
+        return new ManifestCacheFactory(
+            [
+                'namespace' => 'manifestcache',
+                'directory' => TempFolder::getTempFolder($this->basePath),
+            ],
+            $logger
+        );
     }
 
     /**

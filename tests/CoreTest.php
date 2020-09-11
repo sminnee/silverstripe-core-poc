@@ -4,7 +4,6 @@ namespace SilverStripe\Core\Tests;
 
 use SilverStripe\Core\TempFolder;
 use SilverStripe\Dev\SapphireTest;
-use SilverStripe\Control\Director;
 
 /**
  * Tests for the core of SilverStripe, such as how the temporary
@@ -18,7 +17,7 @@ class CoreTest extends SapphireTest
     protected function setUp()
     {
         parent::setUp();
-        $this->tempPath = Director::baseFolder() . DIRECTORY_SEPARATOR . 'silverstripe-cache';
+        $this->tempPath = BASE_PATH . DIRECTORY_SEPARATOR . 'silverstripe-cache';
     }
 
     public function testGetTempPathInProject()
