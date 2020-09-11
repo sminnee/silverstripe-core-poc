@@ -5,6 +5,10 @@ namespace SilverStripe\i18n\TextCollection;
 use SilverStripe\i18n\i18n;
 use SilverStripe\View\SSTemplateParser;
 
+if (!class_exists(SSTemplateParser::class)) {
+    return;
+}
+
 /**
  * Parser that scans through a template and extracts the parameters to the _t and <%t calls
  */

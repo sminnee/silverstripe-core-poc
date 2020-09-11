@@ -74,34 +74,38 @@ trait i18nTestManifest
      */
     public function setupManifest()
     {
-        // force SSViewer_DataPresenter to cache global template vars before we switch to the
-        // test-project class manifest (since it will lose visibility of core classes)
-        $presenter = new SSViewer_DataPresenter(new ViewableData());
-        unset($presenter);
+        if (class_exists(SSViewer_DataPresenter::class)) {
+            // force SSViewer_DataPresenter to cache global template vars before we switch to the
+            // test-project class manifest (since it will lose visibility of core classes)
+            $presenter = new SSViewer_DataPresenter(new ViewableData());
+            unset($presenter);
+        }
 
         // Switch to test manifest
         $s = DIRECTORY_SEPARATOR;
         $this->alternateBasePath = __DIR__ . $s . 'i18nTest' . $s . "_fakewebroot";
-        Director::config()->update('alternate_base_folder', $this->alternateBasePath);
+        //Director::config()->update('alternate_base_folder', $this->alternateBasePath);
 
         // New module manifest
         $moduleManifest = new ModuleManifest($this->alternateBasePath);
         $moduleManifest->init(true);
         $this->pushModuleManifest($moduleManifest);
 
-        // Replace old template loader with new one with alternate base path
-        $this->oldThemeResourceLoader = ThemeResourceLoader::inst();
-        ThemeResourceLoader::set_instance($loader = new ThemeResourceLoader($this->alternateBasePath));
-        $loader->addSet(
-            '$default',
-            $default = new ThemeManifest($this->alternateBasePath, project())
-        );
-        $default->init(true);
+        if (class_exists(ThemeResourceLoader::class)) {
+            // Replace old template loader with new one with alternate base path
+            $this->oldThemeResourceLoader = ThemeResourceLoader::inst();
+            ThemeResourceLoader::set_instance($loader = new ThemeResourceLoader($this->alternateBasePath));
+            $loader->addSet(
+                '$default',
+                $default = new ThemeManifest($this->alternateBasePath, project())
+            );
+            $default->init(true);
 
-        SSViewer::set_themes([
-            'testtheme1',
-            '$default',
-        ]);
+            SSViewer::set_themes([
+                'testtheme1',
+                '$default',
+            ]);
+        }
 
         $this->originalLocale = i18n::get_locale();
         i18n::set_locale('en_US');
@@ -126,8 +130,9 @@ trait i18nTestManifest
 
     public function tearDownManifest()
     {
-        ThemeResourceLoader::set_instance($this->oldThemeResourceLoader);
-        i18n::set_locale($this->originalLocale);
+        if (class_exists(ThemeResourceLoader::class)) {
+            ThemeResourceLoader::set_instance($this->oldThemeResourceLoader);
+        }
 
         // Reset any manifests pushed during this test
         $this->popManifests();

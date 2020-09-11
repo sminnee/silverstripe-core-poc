@@ -10,6 +10,7 @@ use SilverStripe\Dev\SapphireTest;
 use SilverStripe\i18n\i18n;
 use SilverStripe\i18n\Messages\MessageProvider;
 use SilverStripe\i18n\Messages\Symfony\SymfonyMessageProvider;
+use SilverStripe\i18n\Tests\i18nTest\TestDataObject;
 use SilverStripe\View\ArrayData;
 use SilverStripe\View\SSViewer;
 
@@ -74,6 +75,11 @@ class i18nTest extends SapphireTest
 
     public function testDataObjectFieldLabels()
     {
+        if (!class_exists(i18nTest\TestDataObject::class)) {
+            $this->markTestSkipped('ORM isn\'t installed');
+            return;
+        }
+
         i18n::set_locale('de_DE');
 
         // Load into the translator as a literal array data source
@@ -148,6 +154,11 @@ class i18nTest extends SapphireTest
 
     public function testTemplateTranslation()
     {
+        if (!class_exists(SSViewer::class)) {
+            $this->markTestSkipped('SSViewer isn\'t installed');
+            return;
+        }
+
         $oldLocale = i18n::get_locale();
         i18n::config()->update('missing_default_warning', false);
 
@@ -311,6 +322,11 @@ class i18nTest extends SapphireTest
      * */
     public function testNewTemplateTranslation()
     {
+        if (!class_exists(SSViewer::class)) {
+            $this->markTestSkipped('SSViewer isn\'t installed');
+            return;
+        }
+
         i18n::config()->update('missing_default_warning', false);
 
         /** @var SymfonyMessageProvider $provider */

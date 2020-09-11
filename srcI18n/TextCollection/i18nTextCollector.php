@@ -9,7 +9,6 @@ use SilverStripe\Core\Manifest\ClassLoader;
 use SilverStripe\Core\Manifest\Module;
 use SilverStripe\Core\Manifest\ModuleLoader;
 use SilverStripe\Dev\Debug;
-use SilverStripe\Control\Director;
 use ReflectionClass;
 use SilverStripe\Dev\Deprecation;
 use SilverStripe\i18n\i18n;
@@ -103,8 +102,8 @@ class i18nTextCollector
         $this->defaultLocale = $locale
             ? $locale
             : i18n::getData()->langFromLocale(i18n::config()->uninherited('default_locale'));
-        $this->basePath = Director::baseFolder();
-        $this->baseSavePath = Director::baseFolder();
+        $this->basePath = BASE_PATH;
+        $this->baseSavePath = BASE_PATH;
         $this->setWarnOnEmptyDefault(i18n::config()->uninherited('missing_default_warning'));
     }
 
@@ -484,7 +483,7 @@ class i18nTextCollector
                     $this->collectFromCode($content, $filePath, $module),
                     $this->collectFromEntityProviders($filePath, $module)
                 );
-            } elseif ($extension === 'ss') {
+            } elseif ($extension === 'ss' && class_exists(Parser::class)) {
                 // templates use their filename as a namespace
                 $entities = array_merge(
                     $entities,

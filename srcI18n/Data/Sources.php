@@ -79,16 +79,18 @@ class Sources implements Resettable
             }
         }
 
-        // Search theme dirs (receives relative paths)
-        $locator = ThemeResourceLoader::inst();
-        foreach (SSViewer::get_themes() as $theme) {
-            if ($locator->getSet($theme)) {
-                continue;
-            }
-            $path = $locator->getPath($theme);
-            $langPath = BASE_PATH . "/{$path}/lang/";
-            if (is_dir($langPath)) {
-                $paths[] = $langPath;
+        if (class_exists(ThemeResourceLoader::class)) {
+            // Search theme dirs (receives relative paths)
+            $locator = ThemeResourceLoader::inst();
+            foreach (SSViewer::get_themes() as $theme) {
+                if ($locator->getSet($theme)) {
+                    continue;
+                }
+                $path = $locator->getPath($theme);
+                $langPath = BASE_PATH . "/{$path}/lang/";
+                if (is_dir($langPath)) {
+                    $paths[] = $langPath;
+                }
             }
         }
 

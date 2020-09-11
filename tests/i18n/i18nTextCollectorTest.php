@@ -10,6 +10,7 @@ use SilverStripe\i18n\i18n;
 use SilverStripe\i18n\TextCollection\i18nTextCollector;
 use SilverStripe\i18n\Messages\YamlWriter;
 use SilverStripe\i18n\Tests\i18nTextCollectorTest\Collector;
+use SilverStripe\View\SSTemplateParser;
 
 class i18nTextCollectorTest extends SapphireTest
 {
@@ -73,6 +74,11 @@ PHP;
 
     public function testCollectFromNewTemplateSyntaxUsingParserSubclass()
     {
+        if (!class_exists(SSTemplateParser::class)) {
+            $this->markTestSkipped('Can\'t test template i18n parsing without the view module');
+            return;
+        }
+
         $c = i18nTextCollector::create();
         $c->setWarnOnEmptyDefault(false);
         $mymodule = ModuleLoader::inst()->getManifest()->getModule('i18ntestmodule');
@@ -122,6 +128,11 @@ SS;
 
     public function testCollectFromTemplateSimple()
     {
+        if (!class_exists(SSTemplateParser::class)) {
+            $this->markTestSkipped('Can\'t test template i18n parsing without the view module');
+            return;
+        }
+
         $c = i18nTextCollector::create();
         $mymodule = ModuleLoader::inst()->getManifest()->getModule('i18ntestmodule');
 
@@ -152,6 +163,11 @@ SS;
 
     public function testCollectFromTemplateAdvanced()
     {
+        if (!class_exists(SSTemplateParser::class)) {
+            $this->markTestSkipped('Can\'t test template i18n parsing without the view module');
+            return;
+        }
+
         $c = i18nTextCollector::create();
         $c->setWarnOnEmptyDefault(false);
         $mymodule = ModuleLoader::inst()->getManifest()->getModule('i18ntestmodule');
@@ -455,6 +471,11 @@ PHP;
 
     public function testCollectFromIncludedTemplates()
     {
+        if (!class_exists(SSTemplateParser::class)) {
+            $this->markTestSkipped('Can\'t test template i18n parsing without the view module');
+            return;
+        }
+
         $c = i18nTextCollector::create();
         $c->setWarnOnEmptyDefault(false); // Disable warnings for tests
         $mymodule = ModuleLoader::inst()->getManifest()->getModule('i18ntestmodule');
@@ -493,6 +514,11 @@ PHP;
 
     public function testCollectMergesWithExisting()
     {
+        if (!class_exists(SSTemplateParser::class)) {
+            $this->markTestSkipped('Can\'t test template i18n parsing without the view module');
+            return;
+        }
+
         $c = i18nTextCollector::create();
         $c->setWarnOnEmptyDefault(false);
         $c->setWriter(new YamlWriter());
@@ -555,6 +581,11 @@ PHP;
             "    ENTITY: 'Entity with \"Double Quotes\"'\n",
             $moduleLangFileContent
         );
+
+        if (!class_exists(SSTemplateParser::class)) {
+            return;
+        }
+
         $this->assertContains(
             "    MAINTEMPLATE: 'Main Template'\n",
             $moduleLangFileContent
@@ -605,12 +636,12 @@ PHP;
                     'default' => 'Other title',
                     'module' => 'admin',
                 ],
-                'SilverStripe\i18n\Tests\i18nTest\MyObject.PLURALNAME' => 'My Objects',
-                'SilverStripe\i18n\Tests\i18nTest\MyObject.PLURALS' => [
-                    'one' => 'A My Object',
-                    'other' => '{count} My Objects',
-                ],
-                'SilverStripe\i18n\Tests\i18nTest\MyObject.SINGULARNAME' => 'My Object',
+                // 'SilverStripe\i18n\Tests\i18nTest\MyObject.PLURALNAME' => 'My Objects',
+                // 'SilverStripe\i18n\Tests\i18nTest\MyObject.PLURALS' => [
+                //     'one' => 'A My Object',
+                //     'other' => '{count} My Objects',
+                // ],
+                // 'SilverStripe\i18n\Tests\i18nTest\MyObject.SINGULARNAME' => 'My Object',
             ],
             $matches
         );

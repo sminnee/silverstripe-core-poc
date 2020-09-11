@@ -1,9 +1,8 @@
 <?php
 
-use SilverStripe\ORM\DataObject;
 use SilverStripe\Dev\TestOnly;
 
-class i18nTestModule extends DataObject implements TestOnly
+class i18nTestModule implements TestOnly
 {
     private static $db = [
         'MyField' => 'Varchar',
