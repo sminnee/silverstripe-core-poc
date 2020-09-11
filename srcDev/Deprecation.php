@@ -144,7 +144,7 @@ class Deprecation
     public static function get_enabled()
     {
         // Deprecation is only available on dev
-        if (!Injector::inst()->get(Kernel::class)->getEnvironment() === 'dev') {
+        if (Injector::inst()->get(Kernel::class)->getEnvironment() !== 'dev') {
             return false;
         }
         if (isset(self::$enabled)) {
