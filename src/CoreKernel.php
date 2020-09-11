@@ -380,7 +380,9 @@ class CoreKernel implements Kernel
         }
 
         // Allow database adapters to handle their own configuration
-        DatabaseAdapterRegistry::autoconfigure($databaseConfig);
+        if (class_exists(DatabaseAdapterRegistry::class)) {
+            DatabaseAdapterRegistry::autoconfigure($databaseConfig);
+        }
         return $databaseConfig;
     }
 
