@@ -2,10 +2,10 @@
 
 namespace SilverStripe\Core\Tests\ClassInfoTest;
 
+use SilverStripe\Core\Injector\Injectable;
 use SilverStripe\Dev\TestOnly;
-use SilverStripe\ORM\DataObject;
 
-class BaseClass extends DataObject implements TestOnly
+class BaseClass implements TestOnly
 {
-    private static $table_name = 'ClassInfoTest_BaseClass';
+    use Injectable;
 }

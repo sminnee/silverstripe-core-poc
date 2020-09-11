@@ -21,7 +21,6 @@ class KernelTest extends SapphireTest
 
         /** @var CoreKernel $nested1 */
         $nested1 = $kernel->nest();
-        Director::config()->set('alternate_base_url', '/mysite/');
         $this->assertEquals($kernel, $nested1->getNestedFrom());
         $this->assertEquals($nested1->getConfigLoader(), ConfigLoader::inst());
         $this->assertEquals($nested1->getInjectorLoader(), InjectorLoader::inst());
@@ -38,7 +37,6 @@ class KernelTest extends SapphireTest
         $this->assertEquals($nested2->getInjectorLoader(), InjectorLoader::inst());
         $this->assertEquals(2, ConfigLoader::inst()->countManifests());
         $this->assertEquals(2, InjectorLoader::inst()->countManifests());
-        Director::config()->set('alternate_base_url', '/anothersite/');
 
         // Nesting always resets sub-loaders to 1
         $nested2->nest();
@@ -49,7 +47,6 @@ class KernelTest extends SapphireTest
         $nested1->activate();
         $this->assertEquals($nested1->getConfigLoader(), ConfigLoader::inst());
         $this->assertEquals($nested1->getInjectorLoader(), InjectorLoader::inst());
-        $this->assertEquals('/mysite/', Director::config()->get('alternate_base_url'));
         $this->assertEquals(1, ConfigLoader::inst()->countManifests());
         $this->assertEquals(1, InjectorLoader::inst()->countManifests());
     }

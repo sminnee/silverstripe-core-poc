@@ -2,13 +2,15 @@
 
 namespace SilverStripe\Core\Tests\Manifest;
 
+use ReflectionMethod;
 use SilverStripe\Admin\ModelAdmin;
 use SilverStripe\Core\ClassInfo;
-use SilverStripe\Core\Manifest\ClassManifest;
+use SilverStripe\Core\CoreKernel;
 use SilverStripe\Core\Manifest\ClassLoader;
+use SilverStripe\Core\Manifest\ClassManifest;
 use SilverStripe\Dev\SapphireTest;
-use ReflectionMethod;
 use SilverStripe\Security\PermissionProvider;
+use SilverStripe\View\Parsers\FilterInterface;
 
 /**
  * Tests for the {@link ClassManifest} class.
@@ -45,7 +47,7 @@ class NamespacedClassManifestTest extends SapphireTest
     {
         $this->assertContains(
             'SilverStripe\\Framework\\Tests\\ClassI',
-            ClassInfo::implementorsOf(PermissionProvider::class)
+            ClassInfo::implementorsOf(FilterInterface::class)
         );
 
         // because we're using a nested manifest we have to "coalesce" the descendants again to correctly populate the
@@ -53,8 +55,8 @@ class NamespacedClassManifestTest extends SapphireTest
         // including all core classes
         $method = new ReflectionMethod($this->manifest, 'coalesceDescendants');
         $method->setAccessible(true);
-        $method->invoke($this->manifest, ModelAdmin::class);
-        $this->assertContains('SilverStripe\\Framework\\Tests\\ClassI', ClassInfo::subclassesFor(ModelAdmin::class));
+        $method->invoke($this->manifest, CoreKernel::class);
+        $this->assertContains('SilverStripe\\Framework\\Tests\\ClassI', ClassInfo::subclassesFor(CoreKernel::class));
     }
 
     public function testGetItemPath()
@@ -158,7 +160,7 @@ class NamespacedClassManifestTest extends SapphireTest
             'silverstripe\\test\\subtest\\interfacea' => [
                 'silverstripe\\test\\classg' => 'silverstripe\\test\\ClassG',
             ],
-            'silverstripe\\security\\permissionprovider' => [
+            'silverstripe\\view\\parsers\\filterinterface' => [
                 'silverstripe\\framework\\tests\\classi' => 'SilverStripe\\Framework\\Tests\\ClassI',
             ],
         ];

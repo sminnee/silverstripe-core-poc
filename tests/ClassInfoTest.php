@@ -141,8 +141,6 @@ class ClassInfoTest extends SapphireTest
     {
         $ancestry = ClassInfo::ancestry(ChildClass::class);
         $expect = [
-            'silverstripe\\view\\viewabledata' => ViewableData::class,
-            'silverstripe\\orm\\dataobject' => DataObject::class,
             'silverstripe\\core\tests\classinfotest\\baseclass' => BaseClass::class,
             'silverstripe\\core\tests\classinfotest\\childclass' => ChildClass::class,
         ];

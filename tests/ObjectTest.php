@@ -2,10 +2,10 @@
 
 namespace SilverStripe\Core\Tests;
 
-use SilverStripe\Control\Controller;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Core\Extension;
 use SilverStripe\Core\Injector\Injector;
+use SilverStripe\Core\Tests\ClassInfoTest\BaseClass;
 use SilverStripe\Core\Tests\ObjectTest\BaseObject;
 use SilverStripe\Core\Tests\ObjectTest\ExtendTest1;
 use SilverStripe\Core\Tests\ObjectTest\ExtendTest2;
@@ -13,9 +13,9 @@ use SilverStripe\Core\Tests\ObjectTest\ExtendTest3;
 use SilverStripe\Core\Tests\ObjectTest\ExtendTest4;
 use SilverStripe\Core\Tests\ObjectTest\ExtendTest5;
 use SilverStripe\Core\Tests\ObjectTest\ExtensionRemoveTest;
-use SilverStripe\Core\Tests\ObjectTest\ExtensionTest;
 use SilverStripe\Core\Tests\ObjectTest\ExtensionTest2;
 use SilverStripe\Core\Tests\ObjectTest\ExtensionTest3;
+use SilverStripe\Core\Tests\ObjectTest\ExtensionTest;
 use SilverStripe\Core\Tests\ObjectTest\MyObject;
 use SilverStripe\Core\Tests\ObjectTest\MySubObject;
 use SilverStripe\Core\Tests\ObjectTest\TestExtension;
@@ -172,9 +172,9 @@ class ObjectTest extends SapphireTest
      */
     public function testSingleton()
     {
-        $inst = Controller::singleton();
-        $this->assertInstanceOf(Controller::class, $inst);
-        $inst2 = Controller::singleton();
+        $inst = BaseClass::singleton();
+        $this->assertInstanceOf(BaseClass::class, $inst);
+        $inst2 = BaseClass::singleton();
         $this->assertSame($inst2, $inst);
     }
 

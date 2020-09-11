@@ -70,7 +70,7 @@ class ConfigManifestTest extends SapphireTest
 
         $this->assertEquals(
             'Yes',
-            @$config['DirectorExists'],
+            @$config['CoreKernelExists'],
             'Only rule correctly detects existing class'
         );
 

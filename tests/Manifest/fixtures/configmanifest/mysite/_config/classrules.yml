@@ -1,10 +1,10 @@
 ---
 Only:
-  ClassExists: SilverStripe\Control\Director
+  ClassExists: SilverStripe\Core\CoreKernel
 ---
 SilverStripe\Core\Tests\Manifest\ConfigManifestTest:
   Class:
-    DirectorExists: Yes
+    CoreKernelExists: Yes
 ---
 Only:
   ClassExists: NoSuchClass
@@ -14,11 +14,11 @@ SilverStripe\Core\Tests\Manifest\ConfigManifestTest:
     NoSuchClassExists: Yes
 ---
 Except:
-  ClassExists: SilverStripe\Control\Director
+  ClassExists: SilverStripe\Core\CoreKernel
 ---
 SilverStripe\Core\Tests\Manifest\ConfigManifestTest:
   Class:
-    DirectorExists: No
+    CoreKernelExists: No
 ---
 Except:
   ClassExists: NoSuchClass
