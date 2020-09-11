@@ -14,7 +14,9 @@
         "psr/container-implementation": "^1",
         "monolog/monolog": "~1.15",
         "symfony/cache": "^3.3",
-        "nikic/php-parser": "^3 || ^4"
+        "nikic/php-parser": "^3 || ^4",
+        "symfony/translation": "^2.8",
+        "symfony/config": "^3.2"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.7.27",
@@ -28,7 +30,9 @@
         "psr-4": {
             "SilverStripe\\Core\\": "src/",
             "SilverStripe\\Dev\\": "srcDev/",
-            "SilverStripe\\Core\\Tests\\": "tests/"
+            "SilverStripe\\i18n\\": "srcI18n/",
+            "SilverStripe\\Core\\Tests\\": "tests/",
+            "SilverStripe\\i18n\\Tests\\": "tests/i18n"
         },
         "classmap": [
             "src/_legacy"
