@@ -10,7 +10,7 @@ use SilverStripe\View\TemplateGlobalProvider;
 /**
  * Helper for mapping module resources to paths / urls
  */
-class ModuleResourceLoader implements TemplateGlobalProvider
+class ModuleResourceLoader
 {
     use Injectable;
 
