@@ -318,7 +318,9 @@ class SapphireTest extends PHPUnit_Framework_TestCase implements TestOnly
             $fixtureState = static::$state->getStateByName('fixtures');
             $this->fixtureFactory = $fixtureState->getFixtureFactory(static::class);
 
-            $this->logInWithPermission('ADMIN');
+            if (class_exists(Group::class)) {
+                $this->logInWithPermission('ADMIN');
+            }
         }
 
         // turn off template debugging
