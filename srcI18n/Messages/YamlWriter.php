@@ -2,7 +2,6 @@
 
 namespace SilverStripe\i18n\Messages;
 
-use SilverStripe\Assets\Filesystem;
 use SilverStripe\i18n\i18n;
 use Symfony\Component\Yaml\Dumper;
 use SilverStripe\i18n\Messages\Symfony\ModuleYamlLoader;
@@ -46,7 +45,7 @@ class YamlWriter implements Writer
         // Create folder for lang files
         $langFolder = $path . '/lang';
         if (!file_exists($langFolder)) {
-            Filesystem::makeFolder($langFolder);
+            mkdir($langFolder, 0770, true);
             touch($langFolder . '/_manifest_exclude');
         }
 

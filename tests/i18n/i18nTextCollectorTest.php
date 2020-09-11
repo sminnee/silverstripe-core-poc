@@ -21,19 +21,39 @@ class i18nTextCollectorTest extends SapphireTest
      */
     protected $alternateBaseSavePath = null;
 
+    private function rrmdir($src) 
+    {
+        $dir = opendir($src);
+        while (false !== ( $file = readdir($dir))) {
+            if (( $file != '.' ) && ( $file != '..' )) {
+                $full = $src . '/' . $file;
+                if (is_dir($full)) {
+                    $this->rrmdir($full);
+                }
+                else {
+                    unlink($full);
+                }
+            }
+        }
+        closedir($dir);
+        rmdir($src);
+    }
+        
     protected function setUp()
     {
         parent::setUp();
         $this->setupManifest();
 
         $this->alternateBaseSavePath = TEMP_PATH . DIRECTORY_SEPARATOR . 'i18nTextCollectorTest_webroot';
-        Filesystem::makeFolder($this->alternateBaseSavePath);
+        if (!file_exists($this->alternateBaseSavePath)) {
+            mkdir($this->alternateBaseSavePath, 0770, true);
+        }
     }
 
     protected function tearDown()
     {
         if (is_dir($this->alternateBaseSavePath)) {
-            Filesystem::removeFolder($this->alternateBaseSavePath);
+            $this->rrmdir($this->alternateBaseSavePath);
         }
 
         $this->tearDownManifest();
