@@ -10,6 +10,10 @@ use SilverStripe\Core\Kernel;
 use SilverStripe\Security\Permission;
 use SilverStripe\Security\Security;
 
+if (!class_exists(Director::class)) {
+    return;
+}
+
 /**
  * Specialised Director class used by ErrorControlChain to handle error and redirect conditions
  *

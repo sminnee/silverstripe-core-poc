@@ -11,6 +11,10 @@ use SilverStripe\Core\Application;
 use SilverStripe\Dev\Deprecation;
 use SilverStripe\Security\Security;
 
+if (!class_exists(HTTPMiddleware::class)) {
+    return;
+}
+
 /**
  * Decorates application bootstrapping with errorcontrolchain
  *

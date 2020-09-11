@@ -22,6 +22,7 @@ use SilverStripe\Core\Manifest\ClassManifest;
 use SilverStripe\Core\Manifest\ModuleLoader;
 use SilverStripe\Core\Manifest\ModuleManifest;
 use SilverStripe\Dev\DebugView;
+use SilverStripe\Dev\Deprecation;
 use SilverStripe\Dev\Install\DatabaseAdapterRegistry;
 use SilverStripe\Logging\ErrorHandler;
 use SilverStripe\ORM\DB;
@@ -29,7 +30,6 @@ use SilverStripe\View\PublicThemes;
 use SilverStripe\View\SSViewer;
 use SilverStripe\View\ThemeManifest;
 use SilverStripe\View\ThemeResourceLoader;
-use SilverStripe\Dev\Deprecation;
 
 /**
  * Simple Kernel container
@@ -132,14 +132,16 @@ class CoreKernel implements Kernel
         $this->setConfigLoader($configLoader);
 
         // Load template manifest
-        $themeResourceLoader = ThemeResourceLoader::inst();
-        $themeResourceLoader->addSet(SSViewer::PUBLIC_THEME, new PublicThemes());
-        $themeResourceLoader->addSet(SSViewer::DEFAULT_THEME, new ThemeManifest(
-            $basePath,
-            null, // project is defined in config, and this argument is deprecated
-            $manifestCacheFactory
-        ));
-        $this->setThemeResourceLoader($themeResourceLoader);
+        if (class_exists(ThemeResourceLoader::class)) {
+            $themeResourceLoader = ThemeResourceLoader::inst();
+            $themeResourceLoader->addSet(SSViewer::PUBLIC_THEME, new PublicThemes());
+            $themeResourceLoader->addSet(SSViewer::DEFAULT_THEME, new ThemeManifest(
+                $basePath,
+                null, // project is defined in config, and this argument is deprecated
+                $manifestCacheFactory
+            ));
+            $this->setThemeResourceLoader($themeResourceLoader);
+        }
     }
 
     /**
@@ -255,6 +257,10 @@ class CoreKernel implements Kernel
      */
     protected function bootDatabaseEnvVars()
     {
+        if (!class_exists(DB::class)) {
+            return;
+        }
+
         // Set default database config
         $databaseConfig = $this->getDatabaseConfig();
         $databaseConfig['database'] = $this->getDatabaseName();
@@ -268,6 +274,10 @@ class CoreKernel implements Kernel
      */
     protected function validateDatabase()
     {
+        if (!class_exists(DB::class)) {
+            return;
+        }
+
         $databaseConfig = DB::getConfig();
         // Gracefully fail if no DB is configured
         if (empty($databaseConfig['database'])) {
@@ -540,12 +550,14 @@ class CoreKernel implements Kernel
         $this->getModuleLoader()->getManifest()->sort();
 
         // Find default templates
-        $defaultSet = $this->getThemeResourceLoader()->getSet('$default');
-        if ($defaultSet instanceof ThemeManifest) {
-            $defaultSet->setProject(
-                ModuleManifest::config()->get('project')
-            );
-            $defaultSet->init($this->getIncludeTests(), $flush);
+        if (class_exists(ThemeManifest::class)) {
+            $defaultSet = $this->getThemeResourceLoader()->getSet('$default');
+            if ($defaultSet instanceof ThemeManifest) {
+                $defaultSet->setProject(
+                    ModuleManifest::config()->get('project')
+                );
+                $defaultSet->init($this->getIncludeTests(), $flush);
+            }
         }
     }
 
