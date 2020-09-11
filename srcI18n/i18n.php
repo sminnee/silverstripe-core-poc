@@ -66,7 +66,7 @@ use InvalidArgumentException;
  * @see http://www.w3.org/TR/i18n-html-tech-lang
  * @author Bernat Foj Capell <bernat@silverstripe.com>
  */
-class i18n implements TemplateGlobalProvider
+class i18n
 {
     use Configurable;
 
