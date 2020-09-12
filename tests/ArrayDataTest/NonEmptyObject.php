@@ -1,6 +1,6 @@
 <?php
 
-namespace SilverStripe\ORM\Tests\ArrayDataTest;
+namespace SilverStripe\Core\Tests\ArrayDataTest;
 
 use SilverStripe\Dev\TestOnly;
 

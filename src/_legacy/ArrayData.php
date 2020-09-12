@@ -2,7 +2,6 @@
 
 namespace SilverStripe\View;
 
-use SilverStripe\ORM\ArrayLib;
 use InvalidArgumentException;
 use stdClass;
 
@@ -34,12 +33,12 @@ class ArrayData extends ViewableData
         if (is_object($value)) {
             $this->array = get_object_vars($value);
         } elseif (is_array($value)) {
-            if (ArrayLib::is_associative($value)) {
+            if (is_array($value) && $this->isAssociative($value)) {
                 $this->array = $value;
             } elseif (count($value) === 0) {
                 $this->array = [];
             } else {
-                $message = 'ArrayData constructor expects an object or associative array, 
+                $message = 'ArrayData constructor expects an object or associative array,
                             enumerated array passed instead. Did you mean to use ArrayList?';
                 throw new InvalidArgumentException($message);
             }
@@ -48,6 +47,14 @@ class ArrayData extends ViewableData
             throw new InvalidArgumentException($message);
         }
         parent::__construct();
+    }
+
+    /**
+     * Returns true if the array contains non-numeric keys
+     */
+    private function isAssociative(array $array): bool
+    {
+        return !empty($array) && ($array !== array_values($array));
     }
 
     /**
@@ -79,7 +86,7 @@ class ArrayData extends ViewableData
         $value = $this->array[$field];
         if (is_object($value) && !$value instanceof ViewableData) {
             return new ArrayData($value);
-        } elseif (ArrayLib::is_associative($value)) {
+        } elseif (is_array($value) && $this->isAssociative($value)) {
             return new ArrayData($value);
         } else {
             return $value;

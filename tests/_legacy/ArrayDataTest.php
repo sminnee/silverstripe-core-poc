@@ -1,12 +1,11 @@
 <?php
 
-namespace SilverStripe\View\Tests;
+namespace SilverStripe\Core\Tests;
 
-use SilverStripe\ORM\ArrayLib;
-use SilverStripe\ORM\FieldType\DBVarchar;
 use SilverStripe\Dev\Deprecation;
 use SilverStripe\Dev\SapphireTest;
 use SilverStripe\View\ArrayData;
+use SilverStripe\View\ViewableData;
 use stdClass;
 
 class ArrayDataTest extends SapphireTest
@@ -17,11 +16,11 @@ class ArrayDataTest extends SapphireTest
         /* ViewableData objects will be preserved, but other objects will be converted */
         $arrayData = new ArrayData(
             [
-            "A" => new DBVarchar("A"),
+            "A" => new ViewableData("A"),
             "B" => new stdClass(),
             ]
         );
-        $this->assertEquals(DBVarchar::class, get_class($arrayData->A));
+        $this->assertEquals(ViewableData::class, get_class($arrayData->A));
         $this->assertEquals(ArrayData::class, get_class($arrayData->B));
     }
 
@@ -40,8 +39,6 @@ class ArrayDataTest extends SapphireTest
     public function testWrappingAnAssociativeArrayWorks()
     {
         $array = ["A" => "Alpha", "B" => "Beta"];
-        $this->assertTrue(ArrayLib::is_associative($array));
-
         $arrayData = new ArrayData($array);
 
         $this->assertTrue($arrayData->hasField("A"));
@@ -52,15 +49,8 @@ class ArrayDataTest extends SapphireTest
     public function testRefusesToWrapAnIndexedArray()
     {
         $array = [0 => "One", 1 => "Two"];
-        $this->assertFalse(ArrayLib::is_associative($array));
-
-        /*
-        * Expect user_error() to be called below, if enabled
-        * (tobych) That should be an exception. Something like:
-        * $this->setExpectedException('InvalidArgumentException');
-        */
-
-        // $arrayData = new ArrayData($array);
+        $this->expectException('InvalidArgumentException');
+        $arrayData = new ArrayData($array);
     }
 
     public function testSetField()
