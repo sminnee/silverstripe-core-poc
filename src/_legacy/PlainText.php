@@ -48,6 +48,16 @@ class PlainText extends ViewableData
      *
      * @return string
      */
+    public function RAW()
+    {
+        return $this->value;
+    }
+
+    /**
+     * XML encode this value
+     *
+     * @return string
+     */
     public function XML()
     {
         return Convert::raw2xml($this->value);
