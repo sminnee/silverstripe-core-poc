@@ -35,7 +35,8 @@
             "SilverStripe\\i18n\\Tests\\": "tests/i18n"
         },
         "classmap": [
-            "src/_legacy"
+            "src/_legacy",
+            "tests/_legacy"
         ],
         "files": [
             "src/includes/constants.php"
