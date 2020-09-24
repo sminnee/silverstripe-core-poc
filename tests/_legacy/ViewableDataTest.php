@@ -17,6 +17,9 @@ class ViewableDataTest extends SapphireTest
 
     public function testCasting()
     {
+        $this->markTestSkipped('this belongs in ORM');
+        return;
+
         $htmlString = "&quot;";
         $textString = '"';
 
@@ -163,9 +166,9 @@ class ViewableDataTest extends SapphireTest
 
         // Casted data should be the string wrapped in a DBField-object.
         $this->assertNotEmpty($castedData, 'Casted data was empty.');
-        $this->assertInstanceOf(DBField::class, $castedData, 'Casted data should be instance of DBField.');
+        $this->assertInstanceOf(ViewableData::class, $castedData, 'Casted data should be instance of ViewableData.');
 
-        $this->assertEquals($uncastedData, $castedData->getValue(), 'Casted and uncasted strings are not equal.');
+        $this->assertEquals((string)$uncastedData, $castedData->getValue(), 'Casted and uncasted strings are not equal.');
     }
 
     public function testCaching()
@@ -176,15 +179,15 @@ class ViewableDataTest extends SapphireTest
         $objCached->Test = 'AAA';
         $objNotCached->Test = 'AAA';
 
-        $this->assertEquals('AAA', $objCached->obj('Test', null, true, true));
-        $this->assertEquals('AAA', $objNotCached->obj('Test', null, true, true));
+        $this->assertEquals('AAA', (string)$objCached->obj('Test', null, true, true));
+        $this->assertEquals('AAA', (string)$objNotCached->obj('Test', null, true, true));
 
         $objCached->Test = 'BBB';
         $objNotCached->Test = 'BBB';
 
         // Cached data must be always the same
-        $this->assertEquals('AAA', $objCached->obj('Test', null, true, true));
-        $this->assertEquals('BBB', $objNotCached->obj('Test', null, true, true));
+        $this->assertEquals('AAA', (string)$objCached->obj('Test', null, true, true));
+        $this->assertEquals('BBB', (string)$objNotCached->obj('Test', null, true, true));
     }
 
     public function testSetFailover()
@@ -208,6 +211,8 @@ class ViewableDataTest extends SapphireTest
 
     public function testThemeDir()
     {
+        $this->markTestSkipped('this belongs in view');
+        return;
         $themes = [
             "silverstripe/framework:/tests/php/View/ViewableDataTest/testtheme",
             SSViewer::DEFAULT_THEME

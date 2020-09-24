@@ -2,6 +2,7 @@
 
 namespace SilverStripe\Core\Tests\ViewableDataTest;
 
+use SilverStripe\Core\PlainText;
 use SilverStripe\Dev\TestOnly;
 use SilverStripe\View\ViewableData;
 
@@ -13,7 +14,7 @@ class Castable extends ViewableData implements TestOnly
     private static $casting = [
         'alwaysCasted' => RequiresCasting::class,
         'castedUnsafeXML' => UnescapedCaster::class,
-        'test' => 'Text',
+        'test' => PlainText::class,
     ];
 
     public $test = 'test';
