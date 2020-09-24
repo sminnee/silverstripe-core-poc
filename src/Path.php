@@ -78,6 +78,23 @@ class Path
     }
 
     /**
+     * Given an absolute filename, return the path relative to the BASE_PATH
+     *
+     * @param string $file
+     *
+     * @return string
+     */
+    public static function getRelFile($file)
+    {
+        // If already relative
+        if (!self::isAbsolute($file)) {
+            return $file;
+        }
+
+        return str_replace(BASE_PATH . '/', '', $file);
+    }
+
+    /**
      * Returns true if a given path is absolute. Works under both *nix and windows systems.
      *
      * @param string $path
