@@ -258,7 +258,7 @@ class ViewableData implements IteratorAggregate
      */
     public function customise($data)
     {
-        if (is_array($data) && (empty($data) || ArrayLib::is_associative($data))) {
+        if (is_array($data) && (empty($data) || $this->isAssociative($data))) {
             $data = new ArrayData($data);
         }
 
@@ -269,6 +269,14 @@ class ViewableData implements IteratorAggregate
         throw new InvalidArgumentException(
             'ViewableData->customise(): $data must be an associative array or a ViewableData instance'
         );
+    }
+
+    /**
+     * Returns true if the array contains non-numeric keys
+     */
+    protected static function isAssociative(array $array): bool
+    {
+        return !empty($array) && ($array !== array_values($array));
     }
 
     /**
