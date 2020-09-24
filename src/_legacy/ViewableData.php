@@ -15,6 +15,7 @@ use SilverStripe\Core\Extensible;
 use SilverStripe\Core\Injector\Injectable;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Core\Manifest\ModuleResourceLoader;
+use SilverStripe\Core\PlainText;
 use SilverStripe\Dev\Debug;
 use SilverStripe\Dev\Deprecation;
 use SilverStripe\ORM\ArrayLib;
@@ -61,7 +62,7 @@ class ViewableData implements IteratorAggregate
      * @var string
      * @config
      */
-    private static $default_cast = 'Text';
+    private static $default_cast = PlainText::class;
 
     /**
      * @var array
