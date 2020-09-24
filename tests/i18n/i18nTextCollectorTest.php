@@ -21,7 +21,7 @@ class i18nTextCollectorTest extends SapphireTest
      */
     protected $alternateBaseSavePath = null;
 
-    private function rrmdir($src) 
+    private function rrmdir($src)
     {
         $dir = opendir($src);
         while (false !== ( $file = readdir($dir))) {
@@ -29,8 +29,7 @@ class i18nTextCollectorTest extends SapphireTest
                 $full = $src . '/' . $file;
                 if (is_dir($full)) {
                     $this->rrmdir($full);
-                }
-                else {
+                } else {
                     unlink($full);
                 }
             }
@@ -38,7 +37,7 @@ class i18nTextCollectorTest extends SapphireTest
         closedir($dir);
         rmdir($src);
     }
-        
+
     protected function setUp()
     {
         parent::setUp();

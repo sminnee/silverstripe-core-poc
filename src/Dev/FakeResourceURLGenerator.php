@@ -32,7 +32,8 @@ class FakeResourceURLGenerator implements ResourceURLGenerator
      * @return string URL, either domain-relative (starting with /) or absolute
      * @throws InvalidArgumentException If the resource doesn't exist or can't be sent to the browser
      */
-    public function urlForResource($resource) {
+    public function urlForResource($resource)
+    {
         if (is_string($resource)) {
             $relPath = $resource;
         } elseif ($resource instanceof ModuleResource) {

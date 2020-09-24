@@ -63,6 +63,5 @@ class FakeGeneratedAssetHandlerTest extends \PHPUnit_Framework_TestCase
         // Pre-set content also returns a URL
         $f->setContent('test3.txt', 'hello world');
         $this->assertEquals('http://www.example.org/assets/test3.txt', $f->getContentURL('test3.txt'));
-
     }
 }
